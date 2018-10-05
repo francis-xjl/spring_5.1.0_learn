@@ -159,6 +159,9 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	public void resolveAliases(StringValueResolver valueResolver) {
 		Assert.notNull(valueResolver, "StringValueResolver must not be null");
 		synchronized (this.aliasMap) {
+            // 问题：为什么需要复制一份出来？
+            // ConcurrentHashMap是线程安全的，但迭代器对象是线程不安全的(forEach操作使用了迭代器对象)，所以需要复制一份出来，方便迭代操作
+            // https://stackoverflow.com/questions/3768554/is-iterating-concurrenthashmap-values-thread-safe
 			Map<String, String> aliasCopy = new HashMap<>(this.aliasMap);
 			aliasCopy.forEach((alias, registeredName) -> {
 				String resolvedAlias = valueResolver.resolveStringValue(alias);
