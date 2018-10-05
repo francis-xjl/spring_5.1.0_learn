@@ -53,7 +53,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		Assert.hasText(alias, "'alias' must not be empty");
 		synchronized (this.aliasMap) {
 			if (alias.equals(name)) {
-				this.aliasMap.remove(alias);
+				this.aliasMap.remove(alias); // 如果别名与名称一致，则从aliasMap中移除该别名。
 				if (logger.isDebugEnabled()) {
 					logger.debug("Alias definition '" + alias + "' ignored since it points to same name");
 				}
@@ -65,7 +65,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 						// An existing alias - no need to re-register
 						return;
 					}
-					if (!allowAliasOverriding()) {
+					if (!allowAliasOverriding()) { // 检查是否允许覆盖已有的别名数据
 						throw new IllegalStateException("Cannot define alias '" + alias + "' for name '" +
 								name + "': It is already registered for name '" + registeredName + "'.");
 					}
@@ -74,7 +74,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 								registeredName + "' with new target name '" + name + "'");
 					}
 				}
-				checkForAliasCircle(name, alias);
+				checkForAliasCircle(name, alias); //检查是否存在循环引用，若存在，则抛错
 				this.aliasMap.put(alias, name);
 				if (logger.isTraceEnabled()) {
 					logger.trace("Alias definition '" + alias + "' registered for name '" + name + "'");
@@ -102,6 +102,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 			String registeredName = entry.getValue();
 			if (registeredName.equals(name)) {
 				String registeredAlias = entry.getKey();
+				// 允许存在: 别名1-> 别名2, 别名2 -> 名称的情况。
 				if (registeredAlias.equals(alias) || hasAlias(registeredAlias, alias)) {
 					return true;
 				}
@@ -114,7 +115,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	public void removeAlias(String alias) {
 		synchronized (this.aliasMap) {
 			String name = this.aliasMap.remove(alias);
-			if (name == null) {
+			if (name == null) { // 删除不存在的别名，会抛错
 				throw new IllegalStateException("No alias '" + alias + "' registered");
 			}
 		}
@@ -143,7 +144,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		this.aliasMap.forEach((alias, registeredName) -> {
 			if (registeredName.equals(name)) {
 				result.add(alias);
-				retrieveAliases(alias, result);
+				retrieveAliases(alias, result); // 迭代，以确保获取到名称对应的 所有的别名
 			}
 		});
 	}
@@ -163,7 +164,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 				String resolvedAlias = valueResolver.resolveStringValue(alias);
 				String resolvedName = valueResolver.resolveStringValue(registeredName);
 				if (resolvedAlias == null || resolvedName == null || resolvedAlias.equals(resolvedName)) {
-					this.aliasMap.remove(alias);
+					this.aliasMap.remove(alias);// 如果别名与名称一致，则从aliasMap中移除该别名。
 				}
 				else if (!resolvedAlias.equals(alias)) {
 					String existingName = this.aliasMap.get(resolvedAlias);
