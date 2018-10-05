@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: spring-objenesis-repack-2.6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/spring-core/build/libs/spring-objenesis-repack-2.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

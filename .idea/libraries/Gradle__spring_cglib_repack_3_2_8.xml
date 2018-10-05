@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: spring-cglib-repack-3.2.8">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/spring-core/build/libs/spring-cglib-repack-3.2.8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
