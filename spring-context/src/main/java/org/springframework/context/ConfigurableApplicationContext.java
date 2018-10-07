@@ -35,6 +35,7 @@ import org.springframework.lang.Nullable;
  * <p>Configuration and lifecycle methods are encapsulated here to avoid
  * making them obvious to ApplicationContext client code. The present
  * methods should only be used by startup and shutdown code.
+ * 该接口中定义的方法不被客户端代码使用，而是提供给SPI，在容器启动与关闭的时候使用的。
  *
  * @author Juergen Hoeller
  * @author Chris Beams

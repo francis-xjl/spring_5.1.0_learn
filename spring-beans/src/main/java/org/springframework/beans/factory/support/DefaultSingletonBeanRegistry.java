@@ -77,6 +77,8 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
 
 	/** Cache of early singleton objects: bean name to bean instance. */
+	// 与singletonObjects一样，保存beanName -> beanInstance的关系，不同之处在于：
+	// earlySingletonObjects可用于单例对象的创建过程，其目的主要用于检查循环依赖。
 	private final Map<String, Object> earlySingletonObjects = new HashMap<>(16);
 
 	/** Set of registered singletons, containing the bean names in registration order. */

@@ -225,7 +225,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 				canonicalName = resolvedName;
 			}
 		}
-		while (resolvedName != null);
+		while (resolvedName != null); // 问题：为什么要循环？
 		return canonicalName;
 	}
 
